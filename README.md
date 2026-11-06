@@ -1,64 +1,65 @@
-# TI2006B Capstone Project Repository
+# TI2006B persistent project repository
 
-Template for a reproducible business-intelligence, analytics, data-engineering, or machine-learning capstone project.
+License: Original educational content in this example repository is licensed
+under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+Code, third-party datasets, APIs, trademarks, and quoted material retain their
+own licenses and terms.
 
-The repository should make a decision easy to review:
+Version: `v1.0`  
+Status: `example`
 
-**business question → data → analysis → dashboard/model → decision → operation**
+This repository is the persistent home for the project used throughout the
+TI2006B workshop. Keep the repository public unless the instructor explicitly
+authorizes a private alternative. A public repository allows real-time review
+of commits, branches, notebooks, pull requests, and assignment evidence.
 
-This template is designed for Visual Studio Code and Anaconda. Power BI and Tableau artifacts may remain in their native applications, but the repository must contain their metric definitions, screenshots or exports, refresh instructions, and limitations.
+## First example: Pokémon analysis
 
-## Recommended workflow
+Start with [`notebooks/01-pokemon-go-analysis.ipynb`](notebooks/01-pokemon-go-analysis.ipynb).
+It downloads a small public Pokémon species/statistics dataset, creates a
+tidy analysis table, and produces interactive Plotly charts. The example is
+Pokémon GO-inspired, but it is not a dataset of player locations, accounts,
+captures, or Niantic telemetry.
 
-1. Create an Anaconda environment from [`environment.yml`](environment.yml).
-2. Open the repository folder in VS Code and install the recommended extensions.
-3. Write the problem and success measures in [`docs/project-charter.md`](docs/project-charter.md).
-4. Record important technical choices as ADRs in [`docs/adr/`](docs/adr/).
-5. Keep exploratory work in [`notebooks/`](notebooks/); move reusable logic to [`src/`](src/).
-6. Store only licensed, synthetic, anonymized, or small reproducible data samples in [`data/`](data/).
-7. Publish the decision in [`reports/`](reports/) and document the dashboard in [`dashboards/`](dashboards/).
-8. Run tests and notebook checks before opening a pull request.
+Read [`notebooks/README.md`](notebooks/README.md) before running the notebook.
 
-## Repository map
+## Persistent repository structure
 
 ```text
 .
-├── .github/workflows/       # CI checks; deployment is intentionally gated
-├── .vscode/                 # shared editor and extension recommendations
-├── assignments/             # capstone milestones and evidence
-├── dashboards/              # BI metric catalog, exports, screenshots, refresh docs
-│   ├── powerbi/             # PBIX/PBIT guidance and exported evidence
-│   └── tableau/             # TWB/TWBX guidance and exported evidence
-├── data/                    # raw, processed, external, and data documentation
-├── docs/                    # charter, architecture, ADRs, governance, runbook
-├── notebooks/               # analysis notebooks, ordered by execution flow
-├── reports/                 # executive brief, technical report, figures
-├── src/                     # tested reusable Python modules
-├── tests/                   # unit and data-quality tests
-├── environment.yml          # Anaconda environment definition
+├── .github/workflows/       # automated checks for every push and pull request
+├── data/
+│   ├── raw/                 # downloaded or source data; do not commit secrets
+│   ├── processed/           # reproducible derived data
+│   └── README.md            # data dictionary, provenance, and limitations
+├── notebooks/               # exploratory and teaching notebooks
+├── reports/                 # figures, summaries, and final reports
+├── src/                     # reusable Python code after notebooks stabilize
+├── assignments/             # later activity or assignment evidence
+├── requirements.txt         # pinned-enough teaching dependencies
+├── .gitignore
 └── README.md
 ```
 
-## Rules for a trustworthy capstone
+## Working agreement for real-time grading
 
-- Never commit passwords, API keys, personal data, private company data, or unlicensed extracts.
-- Every dataset must identify its source, license, retrieval date, transformations, and known limitations.
-- Every KPI must have one definition, owner, grain, time zone, freshness target, and calculation.
-- A dashboard is evidence for a decision, not the decision itself.
-- A notebook should be runnable from the repository root and explain what its results do and do not support.
-- Do not hide failed experiments; summarize them in the report or a decision log.
+- Make one focused commit per meaningful change.
+- Use a descriptive branch for substantial work, for example
+  `activity-02-pokemon-analysis`.
+- Keep notebooks runnable from the repository root.
+- Put explanations and data provenance in Markdown, not only in code.
+- Do not commit passwords, API keys, private student data, personal location
+  histories, or unlicensed company data.
+- Preserve the notebook outputs when they help a reviewer understand the work,
+  but do not treat a rendered chart as proof that the underlying data is valid.
 
-## Local setup
+## Run locally
 
 ```bash
-conda env create -f environment.yml
-conda activate ti2006b-capstone
-code .
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
 jupyter lab
 ```
 
-In VS Code, open a notebook and select the `ti2006b-capstone` kernel from the top-right kernel picker. The dashboard applications are installed and managed separately according to team or institution policy.
-
-## Suggested capstone milestones
-
-See [`assignments/README.md`](assignments/README.md) for the evidence expected at each stage. A project is complete when another student can understand the decision, reproduce the analysis, inspect the dashboard assumptions, and identify what should be monitored after delivery.
+The GitHub Actions workflow runs the notebook on pushes and pull requests.
